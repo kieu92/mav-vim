@@ -1,16 +1,18 @@
-"       __      __
-"      |  \    /  |                                         _
-"      |   \  /   |  ______            _                   (_)
-"      | |\ \/ /| | |____  \ __    __ |_| ____    __    __  _   _ ___ __
-"      | | \  / | |  /  _  | \ \  / /    /  __|   \ \  / / | | |  _   _ \
-"      | |  \/  | | |  |_| |  \ \/ /     \___ \    \ \/ /  | | | | | | | |
-"      |_|      |_|  \_____/   \__/      |____/     \__/   |_| |_| |_| |_|
+"  " # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # "
+"  "  __      __                                                         "
+"  " |  \    /  |                                        _               "
+"  " |   \  /   |  ______            _                  (_)              "
+"  " | |\ \/ /| | |____  \ __    __ |_| ____   __    __  _   _ ___ __    "
+"  " | | \  / | |  /  _  | \ \  / /    /  __|  \ \  / / | | |  _   _  \  "
+"  " | |  \/  | | |  |_| |  \ \/ /     \___ \   \ \/ /  | | | | | | | |  "
+"  " |_|      |_|  \_____/   \__/      |____/    \__/   |_| |_| |_| |_|  "
+"  " # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # "
 "
-"       This vim is greatly inspired by spf13-vim: Steve Francia's Vim
-"       Distribution. Check out his awesome vim at https://vim.spf13.com.
+"     This vim is greatly inspired by spf13-vim: Steve Francia's Vim
+"     Distribution. Check out his awesome vim at: https://vim.spf13.com
 "
-"       Source Cited:
-"       https://github.com/spf13/spf13-vim.git
+"     Source Cited:
+"     https://github.com/spf13/spf13-vim.git
 
 
 " Basic {
@@ -39,7 +41,8 @@
 
 " Vim UI {
     set termguicolors               " Enable full-color support
-    colorscheme gruvbox             " Load a colorscheme
+    colorscheme solarized8_high     " Load a colorscheme
+    set fillchars+=vert:\           " Get rid of pipe characters in VertSlip
     set tabpagemax=15               " Only show 15 tabs
     set showmode                    " Display the current mode
     set cursorline                  " Highlight current line
@@ -100,7 +103,7 @@
 
     " Airline Clock {
         if isdirectory(expand("~/.vim/bundle/vim-airline-clock/"))
-            let g:airline#extensions#clock#format = '%a, %d %b %Y %H:%M'
+            let g:airline#extensions#clock#format = '%a, %m/%d %H:%M'
         endif
     " }
 
@@ -110,6 +113,14 @@
             if !exists('g:airline_theme')
                 let g:airline_theme = 'minimalist'
             endif
+
+            let g:airline_powerline_fonts = 1
+
+            " powerline symbols
+            " let g:airline_left_sep = ''
+            " let g:airline_left_alt_sep = ''
+            " let g:airline_right_sep = ''
+            " let g:airline_right_alt_sep = ''
         endif
     " }
 
@@ -127,20 +138,6 @@
     " Java Complete 2 {
         if isdirectory(expand("~/.vim/bundle/vim-javacomplete2/"))
             autocmd FileType java setlocal omnifunc=javacomplete#Complete
-        endif
-    " }
-
-    " Menlo for Powerline {
-        if isdirectory(expand("~/.vim/bundle/Menlo-for-Powerline/"))
-            let g:airline_powerline_fonts = 0
-            let g:airline_left_alt_sep = '|'
-            let g:airline_right_alt_sep = ''
-
-            " powerline symbols
-            " let g:airline_left_sep = ''
-            " let g:airline_left_alt_sep = ''
-            " let g:airline_right_sep = ''
-            " let g:airline_right_alt_sep = ''
         endif
     " }
 
@@ -231,15 +228,17 @@
         " Declare the list of plugins.
         Plug 'vim-airline/vim-airline'
         Plug 'vim-airline/vim-airline-themes'
-        Plug 'Townk/vim-autoclose/'
+        Plug 'Townk/vim-autoclose'
         Plug 'alvan/vim-closetag'
         Plug 'gko/vim-coloresque'
-        Plug 'artur-shaik/vim-javacomplete2'
+        Plug 'Shougo/deoplete-clangx'
         Plug 'morhetz/gruvbox'
-        Plug 'abertsch/Menlo-for-Powerline'
+        Plug 'artur-shaik/vim-javacomplete2'
         Plug 'Shougo/neco-syntax'
+        Plug 'scrooloose/nerdcommenter'
         Plug 'scrooloose/nerdtree'
         Plug 'jistr/vim-nerdtree-tabs'
+        Plug 'lifepillar/vim-solarized8'
         Plug 'keith/swift.vim'
         Plug 'vim-syntastic/syntastic'
         Plug 'TheCodedSelf/syntastic-swift'
