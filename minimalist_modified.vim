@@ -15,18 +15,18 @@ function! airline#themes#{s:theme}#refresh()
     if &background == "dark"
         " Normal
         let N1 = [ '#faed27', '#3A3A3A', 254, 237 ]
-        let N2 = [ '#E4E4E4', '#4E4E4E', 254, 239 ]
-        let N3 = [ '#EEEEEE', '#262626', 255, 235 ]
+        let N2 = [ '#f4cf86', '#4E4E4E', 254, 239 ]
+        let N3 = [ '#8cffba', '#262626', 255, 235 ]
 
         " Insert
         let N4 = [ '#27faed', '#3A3A3A', 254, 237 ]
-        let N5 = [ '#E4E4E4', '#4E4E4E', 254, 239 ]
-        let N6 = [ '#EEEEEE', '#262626', 255, 235 ]
+        let N5 = [ '#f4cf86', '#4E4E4E', 254, 239 ]
+        let N6 = [ '#8cffba', '#262626', 255, 235 ]
 
         " Visual
         let N7 = [ '#ed27fa', '#3A3A3A', 254, 237 ]
-        let N8 = [ '#E4E4E4', '#4E4E4E', 254, 239 ]
-        let N9 = [ '#EEEEEE', '#262626', 255, 235 ]
+        let N8 = [ '#f4cf86', '#4E4E4E', 254, 239 ]
+        let N9 = [ '#8cffba', '#262626', 255, 235 ]
 
         " Inactive
         let IA = [ '#666666', N3[1], 242, N3[3] ]
