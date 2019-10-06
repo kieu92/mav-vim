@@ -26,9 +26,11 @@ Basic layout of .vim:
       - deoplete-clangx/
       - gruvbox/
       - vim-javacomplete2/
+      - kotlin-vim/
       - neco-syntax/
       - nerdcommenter/
       - nerdtree/
+      - palenight.vim/
       - vim-nerdtree-tabs/
       - vim-solarized8/
       - swift.vim/
