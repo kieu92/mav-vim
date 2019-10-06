@@ -41,8 +41,8 @@
 
 " Vim UI {
     set termguicolors               " Enable full-color support
-    colorscheme solarized8_high     " Load a colorscheme
-    set fillchars+=vert:\           " Get rid of pipe characters in VertSlip
+    colorscheme palenight           " Load a colorscheme
+    " set fillchars+=vert:\           " Get rid of pipe characters in VertSlip
     set tabpagemax=15               " Only show 15 tabs
     set showmode                    " Display the current mode
     set cursorline                  " Highlight current line
@@ -115,12 +115,6 @@
             endif
 
             let g:airline_powerline_fonts = 1
-
-            " powerline symbols
-            " let g:airline_left_sep = ''
-            " let g:airline_left_alt_sep = ''
-            " let g:airline_right_sep = ''
-            " let g:airline_right_alt_sep = ''
         endif
     " }
 
@@ -238,6 +232,7 @@
         Plug 'scrooloose/nerdcommenter'
         Plug 'scrooloose/nerdtree'
         Plug 'jistr/vim-nerdtree-tabs'
+        Plug 'drewtempelmeyer/palenight.vim'
         Plug 'lifepillar/vim-solarized8'
         Plug 'keith/swift.vim'
         Plug 'vim-syntastic/syntastic'
