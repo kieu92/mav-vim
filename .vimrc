@@ -9,9 +9,9 @@
 "  " # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # "
 "
 "     This vim is greatly inspired by spf13-vim: Steve Francia's Vim
-"     Distribution. Check out his awesome vim at: https://vim.spf13.com
+"     Distribution. Check out their awesome vim at https://vim.spf13.com.
 "
-"     Source Cited:
+"     Source:
 "     https://github.com/spf13/spf13-vim.git
 
 
@@ -26,7 +26,7 @@
 
     set virtualedit=onemore         " Allow for cursor beyond last character
     set history=500                 " Store a ton of history (default is 20)
-    set spell                       " Spell checking on
+    set nospell                     " Spell checking off
     set hidden                      " Allow buffer switching without saving
 
     " Setting up the directories {
@@ -42,7 +42,7 @@
 " Vim UI {
     set termguicolors               " Enable full-color support
     colorscheme palenight           " Load a colorscheme
-    " set fillchars+=vert:\           " Get rid of pipe characters in VertSlip
+    set fillchars+=vert:\           " Get rid of pipe characters in VertSlip
     set tabpagemax=15               " Only show 15 tabs
     set showmode                    " Display the current mode
     set cursorline                  " Highlight current line
@@ -93,6 +93,53 @@
     set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
 " }
 
+" vim-plug {
+    " To download plugins in ~/.vim/plugged, set var = 0. OR
+    " To download plugins in ~/.vim/bundle, set var = 1. FINALLY
+    " Run :PlugInstall
+    let var = 0
+
+    if var
+        " Plugins will be downloaded under the specified directory.
+         call plug#begin('~/.vim/bundle/')
+
+        " Declare the list of plugins.
+        Plug 'vim-airline/vim-airline'
+        Plug 'vim-airline/vim-airline-themes'
+        Plug 'Townk/vim-autoclose'
+        Plug 'alvan/vim-closetag'
+        Plug 'gko/vim-coloresque'
+        Plug 'Shougo/deoplete-clangx'
+        Plug 'artur-shaik/vim-javacomplete2'
+        Plug 'tpope/vim-fugitive'
+        Plug 'Shougo/neco-syntax'
+        Plug 'Shougo/neosnippet.vim'
+        Plug 'Shougo/neosnippet-snippets'
+        Plug 'scrooloose/nerdcommenter'
+        Plug 'scrooloose/nerdtree'
+        Plug 'jistr/vim-nerdtree-tabs'
+        Plug 'drewtempelmeyer/palenight.vim'
+        Plug 'frazrepo/vim-rainbow'
+        Plug 'keith/swift.vim'
+        Plug 'vim-syntastic/syntastic'
+        Plug 'TheCodedSelf/syntastic-swift'
+        Plug 'majutsushi/tagbar'
+
+        " List ends here. Plugins become visible to Vim after this call.
+        call plug#end()
+    else
+        " Plugins will be downloaded under the specified directory.
+        call plug#begin('~/.vim/plugged/')
+
+        " Declare the list of plugins.
+        Plug 'Shougo/deoplete.nvim'
+        Plug 'roxma/vim-hug-neovim-rpc'
+        Plug 'roxma/nvim-yarp'
+        " List ends here. Plugins become visible to Vim after this call.
+        call plug#end()
+    endif
+" }
+
 " Plugins {
     " Airline {
         if isdirectory(expand("~/.vim/bundle/vim-airline/"))
@@ -123,15 +170,47 @@
             let g:deoplete#enable_at_startup = 1
             let g:deoplete#omni_patterns = {}
             let g:deoplete#auto_completion_start_length = 2
-            let g:deoplete#sources = {}
-            let g:deoplete#sources._ = []
-            let g:deoplete#file#enable_buffer_path = 1
+
+            call deoplete#custom#var('omni', 'input_patterns', {
+                \ 'java': '[^. *\t]\.\w*',
+                \ 'php': '\w+|[^. \t]->\w*|\w+::\w*',
+                \ 'javascript': '[^. *\t]\.\w*',
+                \ 'ruby': ['[^. *\t]\.\w*', '[a-zA-Z_]\w*::'],
+                \ 'ocaml': '[^. *\t]\.\w*|\s\w*|#',
+                \})
         endif
     " }
 
     " Java Complete 2 {
         if isdirectory(expand("~/.vim/bundle/vim-javacomplete2/"))
             autocmd FileType java setlocal omnifunc=javacomplete#Complete
+        endif
+    " }
+
+    " Merlin {
+        let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+        execute "set rtp+=" . g:opamshare . "/merlin/vim"
+    " }
+
+    " Neosnippet {
+        " Plugin key-mappings.
+        " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+        imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+        smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+        xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+        " SuperTab like snippets behavior.
+        " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+        "imap <expr><TAB>
+        " \ pumvisible() ? "\<C-n>" :
+        " \ neosnippet#expandable_or_jumpable() ?
+        " \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+        smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+        \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+        " For conceal markers.
+        if has('conceal')
+            set conceallevel=2 concealcursor=niv
         endif
     " }
 
@@ -154,6 +233,20 @@
         endif
     " }
 
+    " Rainbow {
+        let g:rainbow_active = 1
+
+        let g:rainbow_load_separately = [
+            \ [ '*' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
+            \ [ '*.tex' , [['(', ')'], ['\[', '\]']] ],
+            \ [ '*.cpp' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
+            \ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
+            \ ]
+
+        let g:rainbow_guifgs = ['RoyalBlue3', 'DarkOrange3', 'DarkOrchid3', 'FireBrick']
+        let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
+    " }
+
     " Syntastic {
         if isdirectory(expand("~/.vim/bundle/syntastic/"))
             set statusline+=%#warningmsg#
@@ -168,6 +261,9 @@
             " Javascript
             let g:syntastic_javascript_checkers = ['eslint']
             let g:syntastic_javascript_eslint_exe = '$(npm bin)/eslint'
+
+            "OCaml
+            let g:syntastic_ocaml_checkers = ['merlin']
         endif
     " }
 
@@ -207,51 +303,4 @@
             endif
         endfunction
     " }
-" }
-
-" vim-plug {
-    " To download plugins in ~/.vim/plugged, set var = 0. OR
-    " To download plugins in ~/.vim/bundle, set var = 1. FINALLY
-    " Run :PlugInstall
-    let var = 0
-
-    if var
-        " Plugins will be downloaded under the specified directory.
-         call plug#begin('~/.vim/bundle/')
-
-        " Declare the list of plugins.
-        Plug 'vim-airline/vim-airline'
-        Plug 'vim-airline/vim-airline-themes'
-        Plug 'Townk/vim-autoclose'
-        Plug 'alvan/vim-closetag'
-        Plug 'gko/vim-coloresque'
-        Plug 'Shougo/deoplete-clangx'
-        Plug 'morhetz/gruvbox'
-        Plug 'artur-shaik/vim-javacomplete2'
-        Plug 'Shougo/neco-syntax'
-        Plug 'scrooloose/nerdcommenter'
-        Plug 'scrooloose/nerdtree'
-        Plug 'jistr/vim-nerdtree-tabs'
-        Plug 'drewtempelmeyer/palenight.vim'
-        Plug 'lifepillar/vim-solarized8'
-        Plug 'keith/swift.vim'
-        Plug 'vim-syntastic/syntastic'
-        Plug 'TheCodedSelf/syntastic-swift'
-        Plug 'majutsushi/tagbar'
-        Plug 'mbbill/undotree'
-
-        " List ends here. Plugins become visible to Vim after this call.
-        call plug#end()
-    else
-        " Plugins will be downloaded under the specified directory.
-        call plug#begin('~/.vim/plugged/')
-
-        " Declare the list of plugins.
-        Plug 'Shougo/deoplete.nvim'
-        Plug 'roxma/vim-hug-neovim-rpc'
-        Plug 'roxma/nvim-yarp'
-
-        " List ends here. Plugins become visible to Vim after this call.
-        call plug#end()
-    endif
 " }
